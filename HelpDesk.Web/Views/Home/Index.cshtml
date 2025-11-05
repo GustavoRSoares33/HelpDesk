@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container active" id="login">
+    <img src="~/img/logo.png" alt="Logo do Sistema">
+    <h2>Seja bem Vindo</h2>
+    <h3>Entrar</h3>
+
+    <form asp-action="Login" method="post">
+        <input type="email" name="email" placeholder="E-mail" required>
+        <input type="password" name="senha" placeholder="Senha" required>
+
+        <div class="links">
+            <a asp-action="Cadastro">Não tem uma conta? Cadastre-se</a>
+        </div>
+
+        <button type="submit" class="btn">Entrar</button>
+
+        @if (ViewBag.Erro != null)
+        {
+                <div style="color: red; margin-top: 15px;">@ViewBag.Erro</div>
+        }
+    </form>
+</div>

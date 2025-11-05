@@ -1,0 +1,46 @@
+﻿@model List<AcessoDados.Models.Chamado>
+@{
+    ViewData["Title"] = "Meus Atendimentos";
+}
+
+<div class="container active" style="width: 80%; max-width: 1200px; text-align: left;">
+
+    <h1 style="text-align: center;">Meus Atendimentos</h1>
+    <p style="text-align: center;">Abaixo estão os chamados que estão sob sua responsabilidade.</p>
+
+    <div class="links" style="text-align: center; margin: 20px 0;">
+        <a asp-action="TecnicoDashboard" asp-controller="Home" class="btn" style="width: auto; padding: 10px 20px;">Voltar para a Fila de Atendimento</a>
+    </div>
+
+    <hr style="border-color: #d4af37;" />
+
+    <table class="chamado-table">
+        <thead>
+            <tr>
+                <th>Protocolo</th>
+                <th>Aberto por</th>
+                <th>Data de Abertura</th>
+                <th>Descrição do Problema</th>
+                <th>Categoria</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chamado in Model)
+            {
+                    <tr>
+                            <td>
+                                <a asp-action="DetalhesChamado" asp-route-id="@chamado.IdChamado">@chamado.IdChamado</a>
+                            </td>
+                        <td>@chamado.NomeUsuario</td>
+                        <td>@chamado.DataAbertura.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@chamado.Descricao</td>
+                        <td>@chamado.NomeCategoria</td>
+                        <td>
+                            <a asp-action="Finalizar" asp-controller="Home" asp-route-id="@chamado.IdChamado" class="btn btn-success">Finalizar</a>
+                        </td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>

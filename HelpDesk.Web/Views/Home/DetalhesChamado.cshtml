@@ -1,0 +1,108 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model AcessoDados.Models.Chamado
+@{
+    ViewData["Title"] = "Detalhes do Chamado #" + Model.IdChamado;
+    string? userRole = HttpContextAccessor.HttpContext?.Session.GetString("UserRole");
+}
+
+<div class="container active" style="width: 70%; max-width: 900px; text-align: left;">
+
+    <h2 style="text-align: center;">Detalhes do Chamado - Protocolo #@Model.IdChamado</h2>
+
+    <div class="links" style="text-align: center; margin: 20px 0;">
+        @if (userRole == "Usuario")
+        {
+                <a asp-action="Dashboard" asp-controller="Home" class="btn" style="width: auto; padding: 10px 20px;">Voltar para Meus Chamados</a>
+        }
+        else if (userRole == "Tecnico")
+        {
+                <a asp-action="TecnicoDashboard" asp-controller="Home" class="btn" style="width: auto; padding: 10px 20px;">Voltar para a Fila de Atendimento</a>
+        }
+    </div>
+    <div class="chamado-details">
+        <div class="detail-item">
+            <strong>Solicitante:</strong>
+            <span>@Model.NomeUsuario</span>
+        </div>
+        <div class="detail-item">
+            <strong>Status:</strong>
+            <span>@Model.Status</span>
+        </div>
+        <div class="detail-item">
+            <strong>Data de Abertura:</strong>
+            <span>@Model.DataAbertura.ToString("dd/MM/yyyy 'às' HH:mm")</span>
+        </div>
+        <div class="detail-item">
+            <strong>Data de Fechamento:</strong>
+            <span>@(Model.DataFechamento?.ToString("dd/MM/yyyy 'às' HH:mm") ?? "Ainda não finalizado")</span>
+        </div>
+        <div class="detail-item">
+            <strong>Técnico Responsável:</strong>
+            <span>@Model.NomeTecnico</span>
+        </div>
+        <div class="detail-item full-width">
+            <strong>Descrição do Problema:</strong>
+            <p>@Model.Descricao</p>
+        </div>
+            <div class="detail-item">
+            <strong>Categoria:</strong>
+            <span>@Model.NomeCategoria</span>
+        </div>
+    </div>
+    <hr style="border-color: #d4af37; margin: 30px 0;" />
+
+    <h3 style="text-align: center;">Histórico de Interações</h3>
+    <div class="chat-history">
+        @foreach (var comentario in ViewBag.Comentarios)
+        {
+                <div class="chat-message">
+                    <div class="chat-author">@comentario.Autor</div>
+                    <div class="chat-text">@comentario.Texto</div>
+                    <div class="chat-timestamp">@comentario.DataHora.ToString("dd/MM/yyyy HH:mm")</div>
+                </div>
+        }
+    </div>
+
+    @if ((userRole == "Usuario" && Model.Status != "Encerrado" && Model.Status != "Resolvido via IA") ||
+        (userRole == "Tecnico" && Model.Status == "Em atendimento"))
+    {
+            <div class="chat-form">
+                <form asp-action="AdicionarComentario" method="post">
+                    <input type="hidden" name="idChamado" value="@Model.IdChamado" />
+                    <textarea name="texto" class="form-control" rows="3" placeholder="Digite seu comentário aqui..." required></textarea>
+                    <button type="submit" class="btn" style="margin-top: 10px;">Enviar Comentário</button>
+                </form>
+            </div>
+    }
+
+    @if (userRole == "Usuario" && Model.Status == "Encerrado")
+    {
+            <hr style="border-color: #d4af37; margin: 30px 0;" />
+            <h3 style="text-align: center;">Avaliação do Atendimento</h3>
+
+        @if (Model.Feedback == null)
+        {
+                    <div class="feedback-form" style="text-align: center;">
+                        <form asp-action="SalvarFeedback" method="post">
+                            <input type="hidden" name="idChamado" value="@Model.IdChamado" />
+                            <select name="nota" class="form-control" style="width: 200px; margin: auto; margin-bottom: 15px;">
+                                <option value="">-- Avalie o atendimento --</option>
+                                <option value="5">⭐⭐⭐⭐⭐ Ótimo</option>
+                                <option value="4">⭐⭐⭐⭐ Bom</option>
+                                <option value="3">⭐⭐⭐ Regular</option>
+                                <option value="2">⭐⭐ Ruim</option>
+                                <option value="1">⭐ Péssimo</option>
+                            </select>
+                            <button type="submit" class="btn">Enviar Avaliação</button>
+                        </form>
+                    </div>
+        }
+        else
+        {
+                    <div class="feedback-given" style="text-align: center;">
+                        <p>Obrigado por avaliar este atendimento!</p>
+                        <p>Sua nota: <strong>@Model.Feedback de 5</strong></p>
+                    </div>
+        }
+    }
+</div>

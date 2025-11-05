@@ -1,0 +1,36 @@
+﻿@{
+    ViewData["Title"] = "Sugestão Automática";
+}
+
+<div class="container active" style="width: 60%; max-width: 800px; text-align: center;">
+
+    <h2>Encontramos uma possível solução!</h2>
+    <p>Com base na sua descrição, nossa IA sugere o seguinte:</p>
+
+    <hr style="border-color: #d4af37; margin: 20px 0;" />
+
+    <div class="suggestion-box problem-box">
+        <strong>Seu problema:</strong>
+        <p>"@ViewBag.Descricao"</p>
+    </div>
+
+    <div class="suggestion-box solution-box">
+        <strong>Sugestão de Solução:</strong>
+        <p>"@ViewBag.Solucao"</p>
+    </div>
+
+    <hr style="border-color: #d4af37; margin: 20px 0;" />
+
+    <h3>Esta solução resolveu seu problema?</h3>
+
+    <div class="suggestion-actions">
+        <form method="post" action="@Url.Action("AceitarSolucao", "Home")" style="margin: 0;">
+            <button type="submit" class="btn btn-success">Sim, resolveu! Obrigado!</button>
+        </form>
+
+        <form method="post" action="@Url.Action("RecusarSolucao", "Home")" style="margin: 0;">
+            <button type="submit" class="btn">Não, preciso de um técnico</button>
+        </form>
+    </div>
+
+</div>

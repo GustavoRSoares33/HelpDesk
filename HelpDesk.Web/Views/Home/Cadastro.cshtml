@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Cadastro";
+}
+
+<div class="container active" id="cadastro">
+    <img src="~/img/logo.png" alt="Logo do Sistema">
+
+    <h2>Cadastre-se</h2>
+
+    <form asp-action="Cadastro" method="post">
+
+        <input type="text" name="Nome" placeholder="Nome Completo" required>
+        <input type="email" name="Email" placeholder="E-mail" required>
+
+        <input type="password" name="Senha" placeholder="Senha" required>
+
+        <div class="checkbox">
+            <input type="checkbox" id="termos" required>
+            <label for="termos">Aceitar Termos de Uso e Política de Privacidade.</label>
+        </div>
+
+        <button type="submit" class="btn">Criar Conta</button>
+    </form>
+
+    <div class="links">
+        <a asp-action="Index">Já tem uma conta? Faça o login.</a>
+    </div>
+
+    @if (ViewBag.Erro != null)
+    {
+            <div style="color: red; margin-top: 15px;">@ViewBag.Erro</div>
+    }
+</div>

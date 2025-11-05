@@ -1,0 +1,46 @@
+﻿@model List<AcessoDados.Models.Chamado>
+@{
+    ViewData["Title"] = "Fila de Atendimento";
+}
+
+<div class="container active" style="width: 80%; max-width: 1200px; text-align: left;">
+
+    <h1 style="text-align: center;">Painel de Atendimento</h1>
+    <p style="text-align: center;">Bem-vindo, <strong>@Context.Session.GetString("NomeUsuario")</strong>. Abaixo estão os chamados aguardando atendimento.</p>
+
+    <div class="links" style="text-align: center; margin: 20px 0;">
+        <a asp-action="MeusAtendimentos" asp-controller="Home" class="btn" style="width: auto; padding: 10px 20px;">Ver Meus Atendimentos</a>
+    </div>
+
+    <hr style="border-color: #d4af37;" />
+
+    <table class="chamado-table">
+        <thead>
+            <tr>
+                <th>Protocolo</th>
+                <th>Aberto por</th>
+                <th>Data de Abertura</th>
+                <th>Descrição do Problema</th>
+                <th>Categoria</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chamado in Model)
+            {
+                    <tr>
+                            <td>
+                                <a asp-action="DetalhesChamado" asp-route-id="@chamado.IdChamado">@chamado.IdChamado</a>
+                            </td>
+                        <td>@chamado.NomeUsuario</td>
+                        <td>@chamado.DataAbertura.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@chamado.Descricao</td>
+                        <td>@chamado.NomeCategoria</td>
+                        <td>
+                            <a asp-action="Atender" asp-controller="Home" asp-route-id="@chamado.IdChamado" class="btn btn-info">Atender</a>
+                        </td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>
