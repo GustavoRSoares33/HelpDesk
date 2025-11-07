@@ -323,3 +323,75 @@ select.form-control {
         display: block;
         margin-top: 10px;
     }
+
+@media (max-width: 768px) {
+
+    /* 1. Esconde o cabeçalho original da tabela, pois não precisamos dele. */
+    .chamado-table thead {
+        display: none;
+    }
+
+    /* 2. Força a tabela e as suas partes a comportarem-se como blocos. */
+    .chamado-table,
+    .chamado-table tbody,
+    .chamado-table tr,
+    .chamado-table td {
+        display: block;
+        width: 100%;
+    }
+
+        /* 3. Transforma cada linha (TR) num "cartão". */
+        .chamado-table tr {
+            margin-bottom: 20px;
+            border: 1px solid #d4af37; /* Usa a sua cor dourada */
+            border-radius: 8px;
+            overflow: hidden; /* Garante que as bordas fiquem bonitas */
+        }
+
+        /* 4. Organiza cada célula (TD) dentro do cartão. */
+        .chamado-table td {
+            display: block;
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #333;
+            padding: 12px 15px; /* Espaçamento interno */
+            text-align: left; /* Alinha todo o texto à esquerda por padrão */
+            box-sizing: border-box; /* Garante que o padding não quebre o layout */
+        }
+
+            .chamado-table td:last-child {
+                border-bottom: 0;
+            }
+
+            /* 5. A MÁGICA: Cria os rótulos - (VERSÃO CORRIGIDA) */
+            .chamado-table td:before {
+                content: attr(data-label);
+                display: block; /* Faz o rótulo ocupar a sua própria linha (em cima) */
+                font-weight: bold;
+                color: #ffcc00; /* A sua cor dourada de destaque */
+                margin-bottom: 5px;
+                font-size: 0.9em; /* Rótulo um pouco menor que o valor */
+            }
+
+            /* 6. (NOVO) Exceção para a célula de "Ações" */
+            /* Não queremos o rótulo "Ações:" visível */
+            .chamado-table td[data-label="Ações:"]:before {
+                display: none;
+            }
+            /* E queremos o botão alinhado à direita */
+            .chamado-table td[data-label="Ações:"] {
+                text-align: right;
+            }
+
+            .dashboard-layout {
+                flex-direction: column;
+                gap: 30px; /* Ajusta o espaçamento entre os blocos empilhados */
+            }
+
+            /* 2. Garante que ambas as "colunas" (agora blocos) ocupem a largura total */
+            .form-column,
+            .table-column {
+                flex-basis: 100%;
+                width: 100%;
+            }
+}

@@ -49,20 +49,29 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var chamado in Model)
-                    {
-                            <tr>
-                                    <td>
-                                        <a asp-action="DetalhesChamado" asp-route-id="@chamado.IdChamado">@chamado.IdChamado</a>
-                                    </td>
-                                <td>@chamado.Descricao</td>
-                                <td>@chamado.NomeCategoria</td>
-                                <td>@chamado.DataAbertura.ToString("dd/MM/yyyy HH:mm")</td>
-                                <td>@chamado.Status</td>
-                            </tr>
-                    }
-                </tbody>
+                        <tbody>
+                            @foreach (var chamado in Model)
+                            {
+                    <tr>
+                        <td data-label="Protocolo:"><a asp-action="DetalhesChamado" asp-route-id="@chamado.IdChamado">@chamado.IdChamado</a></td>
+                        <td data-label="Descrição:">@chamado.Descricao</td>
+                        <td data-label="Categoria:">@chamado.NomeCategoria</td>
+                        <td data-label="Abertura:">@chamado.DataAbertura.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td data-label="Status:">
+                                        @if (chamado.Status == "Encerrado" && chamado.Feedback == null)
+                                        {
+                                            @* O formulário de feedback é muito complexo para o cartão. *@
+                                            @* No mobile, vamos apenas mostrar o status. *@
+                                    <span>@chamado.Status</span>
+                                        }
+                                        else
+                                        {
+                                    <span>@chamado.Status</span>
+                                        }
+                        </td>
+                    </tr>
+                            }
+        </tbody>
             </table>
         </div>
     </div>
