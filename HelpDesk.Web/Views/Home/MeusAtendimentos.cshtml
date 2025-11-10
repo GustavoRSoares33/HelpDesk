@@ -31,8 +31,11 @@
             <tr>
                 <td data-label="Protocolo:"><a asp-action="DetalhesChamado" asp-route-id="@chamado.IdChamado">@chamado.IdChamado</a></td>
                 <td data-label="Aberto por:">@chamado.NomeUsuario</td>
-                <td data-label="Categoria:">@chamado.NomeCategoria</td>
                 <td data-label="Abertura:">@chamado.DataAbertura.ToString("dd/MM/yyyy HH:mm")</td>
+                <td data-label="Descrição:">@chamado.Descricao</td>
+
+                <td data-label="Categoria:">@chamado.NomeCategoria</td>
+
                 <td data-label="Ações:">
                     <a asp-action="Finalizar" asp-controller="Home" asp-route-id="@chamado.IdChamado" class="btn btn-success">Finalizar</a>
                 </td>
