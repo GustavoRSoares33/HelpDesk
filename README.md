@@ -34,7 +34,7 @@ O desenvolvimento deste projeto permitiu aplicar e aprofundar conhecimentos em:
 
 1. Clone o repositório:
    ```bash
-   git clone [https://github.com/GustavoRSoares33/pim_4.git](https://github.com/GustavoRSoares33/pim_4.git)
+   git clone https://github.com/GustavoRSoares33/HelpDesk.git
 
 2. Configure o banco de dados utilizando os scripts na pasta Backup Banco de Dados.
 
